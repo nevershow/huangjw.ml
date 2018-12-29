@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+<!-- <script type="text/javascript">
+  if (window.location.hostname != "localhost" && window.location.hostname != "127.0.0.1" && window.location.hostname != "huangjw.tk")
+    window.location.href = "https://nevershow.github.io" + window.location.pathname;
+</script> -->
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<!-- <meta http-equiv="Cache-Control"content="max-age=3600"/> -->
+<!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> -->
+<!-- <meta http-equiv="Content-Security-Policy-Report-Only" content="default-src * 'unsafe-inline' 'unsafe-eval'; report-uri https://nevershow.github.io" /> -->
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="keywords" content="https://nevershow.github.io, 黄建武, Jianwu Huang, 中山大学, 软件学院, 黄建武的博客, 原创, 好记性不如烂博客">
+<meta name="description" content="https://nevershow.github.io, 黄建武, Jianwu Huang, 中山大学, 软件学院, 黄建武的博客, 原创, 好记性不如烂博客">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="黄建武, Jianwu Huang">
+<meta name="copyright" content="黄建武, 2016">
+<meta name="revisit-after" content="1 days">
+
+
+
+<meta name="description" content="纯Python实现MD5算法">
+<meta name="keywords" content="原创">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python小程序：MD5算法">
+<meta property="og:url" content="https://nevershow.github.io/2016/10/07/MD5/index.html">
+<meta property="og:site_name" content="Just4You">
+<meta property="og:description" content="纯Python实现MD5算法">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-29T14:28:16.143Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python小程序：MD5算法">
+<meta name="twitter:description" content="纯Python实现MD5算法">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Just4You" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-bounce.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Python小程序：MD5算法 | 好记性不如烂博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+<!-- 
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+ -->
+
+<!-- 
+    <script> yiliaConfig.rootUrl = "\/";</script>
+ -->
+
+
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <!-- <img src="/img/face.jpg" class="animated zoomIn"> -->
+            <img src="/img/face.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Just4You</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">好记性不如烂博客</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="文章搜索..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false">
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class="no-result">No results found <i class="fa fa-spinner fa-pulse"></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                    </div>
+
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">分类标签</a></li>
+                        
+                        <!-- <li><a href="https://nevershow.github.io/aboutme.html">关于我</a></li> -->
+                        <li><a href="/aboutme.html">关于我</a></li>
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:huangjw53@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/nevershow" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统分析与设计/">系统分析与设计</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flask/">Flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/">Github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SYSU/">SYSU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/U盘/">U盘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原创/">原创</a></li></ul>
+                    </div>
+                </section>
+                
+
+                
+
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Just4You</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/face.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Just4You</a></h1>
+            </hgroup>
+
+            
+            <p class="header-subtitle">好记性不如烂博客</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">分类标签</a></li>
+                
+                <!-- <li><a href="https://nevershow.github.io/aboutme.html">关于我</a></li> -->
+                <li><a href="/aboutme.html">关于我</a></li>
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:huangjw53@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/nevershow" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+
+      <div class="body-wrap"><article id="post-MD5" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/07/MD5/" class="article-date">
+      <time datetime="2016-10-06T16:28:41.000Z" itemprop="datePublished">2016-10-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python小程序：MD5算法
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud" style="margin-bottom:7px;">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创/">原创</a></li></ul>
+    </div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>纯Python实现MD5算法<br><a id="more"></a></p>
+<h2 id="Let’s-go"><a href="#Let’s-go" class="headerlink" title="Let’s go"></a>Let’s go</h2><h3 id="MD5算法"><a href="#MD5算法" class="headerlink" title="MD5算法"></a>MD5算法</h3><p>MD5消息摘要算法(Message-Digest Algorithm)是一种被广泛使用的密码散列函数，对于任意长度的数据可以产生出一个128位(16字节)的散列值，用于确保信息传输完整一致。MD5为文件传输提供可靠性，例如服务器预先提供一个MD5校验和，用户下载完文件以后，用MD5算法计算下载文件的MD5校验和，然后通过检查这两个校验和是否一致，就能判断下载的文件是否出错。<a href="https://tools.ietf.org/html/rfc1321" target="_blank" rel="noopener">MD5的RFC文档</a></p>
+<h3 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h3><h4 id="1-填充位"><a href="#1-填充位" class="headerlink" title="1.填充位"></a>1.填充位</h4><p>对数据进行填充，使得它的长度(按bit算)模512等于448(除以512余448)。首先在数据末尾填充一个二进制位1，接着填充二进制位0直到消息的位长模512等于448。如果数据一开始位长模512就等于448，仍要进行填充，即填充一个‘1’和511个‘0’。<br>填充完二进制位后，将数据未填充前的位长用64位整数表示(<code>小端规则，即高位地址存高位字节</code>)，将这64位填充到数据末尾。此时填充后的数据的位长刚好是512的倍数。</p>
+<h4 id="2-初始化"><a href="#2-初始化" class="headerlink" title="2.初始化"></a>2.初始化</h4><ul>
+<li>定义4个32位整数，在内存中的16进制表示如下:</li>
+</ul>
+<p>$整数A: 01\ 23\ 45\ 67$<br>$整数B: 89\ ab\ cd\ ef$<br>$整数C: fe\ dc\ ba\ 98$<br>$整数D: 76\ 54\ 32\ 10$<br>因为内存中的数据存储是小端规则，所以4个整数的值为：<br>$A = 0x67452301$<br>$B = 0xefcdab89$<br>$C = 0x98badcfe$<br>$D = 0x10325476$</p>
+<ul>
+<li>定义4个非线性函数：</li>
+</ul>
+<p>$F(X,Y,Z) = (X\wedge{Y}) \vee (\neg{X} \wedge{Z})$<br>$G(X,Y,Z) = (X\wedge{Z}) \vee (Y \wedge \neg{Z})$<br>$H(X,Y,Z) = X \oplus Y \oplus Z$<br>$I(X,Y,Z) = Y \oplus (X \vee \neg{Z})$<br>$\oplus, \wedge, \vee, \neg 是 XOR, AND, OR , NOT 的符号。$</p>
+<ul>
+<li>定义一个数组</li>
+</ul>
+<p>$T[i] = abs(2^{32}\sin(i)), i = 1…64, abs表示绝对值$</p>
+<h4 id="3-四轮操作"><a href="#3-四轮操作" class="headerlink" title="3.四轮操作"></a>3.四轮操作</h4><p>将填充后的数据M按512位(64字节)分成一组，每组64个字节中每4个字节组成一个32位整数存进数组X[0…15]，共16个整数；定义<code>&lt;&lt;&lt;</code>为<code>循环左移</code>操作，对每个分组进行四轮每轮16次操作, 每个分组操作的结果(A,B,C,D的值)都会影响下一分组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">/* 64个字节分为一组. */</span><br><span class="line">For i = 0 to M/64 - 1 do</span><br><span class="line">  AA = A</span><br><span class="line">  BB = B</span><br><span class="line">  CC = C</span><br><span class="line">  DD = D</span><br><span class="line"></span><br><span class="line">  每次读取4个字节组成一个32位整数存进数组X[0...15]</span><br><span class="line">  /* 第一轮，[abcd k s i]定义操作</span><br><span class="line">    a = b + ((a + F(b,c,d) + X[k] + T[i]) &lt;&lt;&lt; s).</span><br><span class="line">    执行16次操作</span><br><span class="line">  */</span><br><span class="line">  [ABCD  0  7  1] [DABC  1 12  2] [CDAB  2 17  3] [BCDA  3 22  4]</span><br><span class="line">  [ABCD  4  7  5] [DABC  5 12  6] [CDAB  6 17  7] [BCDA  7 22  8]</span><br><span class="line">  [ABCD  8  7  9] [DABC  9 12 10] [CDAB 10 17 11] [BCDA 11 22 12]</span><br><span class="line">  [ABCD 12  7 13] [DABC 13 12 14] [CDAB 14 17 15] [BCDA 15 22 16]</span><br><span class="line"></span><br><span class="line">  /* 第二轮，[abcd k s i]定义操作</span><br><span class="line">    a = b + ((a + G(b,c,d) + X[k] + T[i]) &lt;&lt;&lt; s).</span><br><span class="line">    执行16次操作</span><br><span class="line">  */</span><br><span class="line">   [ABCD  1  5 17] [DABC  6  9 18] [CDAB 11 14 19] [BCDA  0 20 20]</span><br><span class="line">   [ABCD  5  5 21] [DABC 10  9 22] [CDAB 15 14 23] [BCDA  4 20 24]</span><br><span class="line">   [ABCD  9  5 25] [DABC 14  9 26] [CDAB  3 14 27] [BCDA  8 20 28]</span><br><span class="line">   [ABCD 13  5 29] [DABC  2  9 30] [CDAB  7 14 31] [BCDA 12 20 32]</span><br><span class="line"></span><br><span class="line">  /* 第三轮，[abcd k s i]定义操作</span><br><span class="line">    a = b + ((a + H(b,c,d) + X[k] + T[i]) &lt;&lt;&lt; s).</span><br><span class="line">    执行16次操作</span><br><span class="line">  */</span><br><span class="line">  [ABCD  5  4 33] [DABC  8 11 34] [CDAB 11 16 35] [BCDA 14 23 36]</span><br><span class="line">  [ABCD  1  4 37] [DABC  4 11 38] [CDAB  7 16 39] [BCDA 10 23 40]</span><br><span class="line">  [ABCD 13  4 41] [DABC  0 11 42] [CDAB  3 16 43] [BCDA  6 23 44]</span><br><span class="line">  [ABCD  9  4 45] [DABC 12 11 46] [CDAB 15 16 47] [BCDA  2 23 48]</span><br><span class="line"></span><br><span class="line">  /* 第四轮，[abcd k s i]定义操作</span><br><span class="line">    a = b + ((a + I(b,c,d) + X[k] + T[i]) &lt;&lt;&lt; s).</span><br><span class="line">    执行16次操作</span><br><span class="line">  */</span><br><span class="line">  [ABCD  0  6 49] [DABC  7 10 50] [CDAB 14 15 51] [BCDA  5 21 52]</span><br><span class="line">  [ABCD 12  6 53] [DABC  3 10 54] [CDAB 10 15 55] [BCDA  1 21 56]</span><br><span class="line">  [ABCD  8  6 57] [DABC 15 10 58] [CDAB  6 15 59] [BCDA 13 21 60]</span><br><span class="line">  [ABCD  4  6 61] [DABC 11 10 62] [CDAB  2 15 63] [BCDA  9 21 64]</span><br><span class="line"></span><br><span class="line">  A = A + AA</span><br><span class="line">  B = B + BB</span><br><span class="line">  C = C + CC</span><br><span class="line">  D = D + DD</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-输出结果"><a href="#4-输出结果" class="headerlink" title="4.输出结果"></a>4.输出结果</h4><p>将第3步得到的A,B,C,D的16进制值用<code>小端规则</code>表示，进行拼接即可得到最终的结果，128位(32个16进制的值)的消息摘要。</p>
+<h3 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h3><p>本程序使用<code>Python2.7</code>，用lambda表达式表示FGHI四个非线性函数，因为Python中的整数不会溢出，所以循环左移时需要将整数转为32位整数，在填充位和最后输出注意要把数据表示成小端规则，另外四轮操作中根据规律可以整合成一个函数，填充位时我用了另一种方式，跟添加01二进制位本质是一样的，这里以8位(一个字节)为一个单位，在原信息后面添加字符，每个字符都是一个字节。一开始添加一个二进制位1，后面添加二进制位0直到位长模512等于448，所以第一个字符就是chr(0x80)，使用公式可计算出应添加多少个chr(0)。使用该种方法代码可以生成字符串的摘要也能生成二进制文件的摘要。<br><code>myMD5.py</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line">F = <span class="keyword">lambda</span> x, y, z: (x&amp;y)|((~x)&amp;z)   <span class="comment"># return z if x == 0 else y</span></span><br><span class="line">G = <span class="keyword">lambda</span> x, y, z: (x&amp;z)|(y&amp;(~z))   <span class="comment"># return y if z == 0 else x</span></span><br><span class="line">H = <span class="keyword">lambda</span> x, y, z: x^y^z</span><br><span class="line">I = <span class="keyword">lambda</span> x, y, z: y^(x|(~z))</span><br><span class="line">int32 = <span class="keyword">lambda</span> x: x &amp; <span class="number">0xffffffff</span>     <span class="comment"># 把整数x转为32位整数</span></span><br><span class="line">rotating = <span class="keyword">lambda</span> x, s: int32(x &lt;&lt; s) | (int32(x) &gt;&gt; (<span class="number">32</span> - s)) <span class="comment"># x循环左移s位</span></span><br><span class="line">littleEndian = <span class="keyword">lambda</span> hexs: hexs.decode(<span class="string">'hex'</span>)[::<span class="number">-1</span>].encode(<span class="string">'hex'</span>) <span class="comment"># 转化为小端</span></span><br><span class="line">roundOp = <span class="keyword">lambda</span> a,b,c,d,k,s,i,fun: b + rotating(a+fun(b,c,d)+X[k]+T[i], s)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对信息进行位扩展, 每次按一个字节8位扩展添加对应的字符</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extend</span><span class="params">(msg)</span>:</span></span><br><span class="line">  bitslen = len(msg) &lt;&lt; <span class="number">3</span></span><br><span class="line">  hexlen = littleEndian(hex(bitslen)[<span class="number">2</span>:].zfill(<span class="number">16</span>))</span><br><span class="line">  extlen = [chr(int(hexlen[i:i+<span class="number">2</span>], <span class="number">16</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">16</span>, <span class="number">2</span>)]</span><br><span class="line">  mod = bitslen % <span class="number">512</span></span><br><span class="line">  padding = chr(<span class="number">0x80</span>) + chr(<span class="number">0</span>) * ((mod &gt;= <span class="number">448</span>) * <span class="number">64</span> + <span class="number">55</span> - (mod &gt;&gt; <span class="number">3</span>))</span><br><span class="line">  <span class="keyword">return</span> msg + padding + <span class="string">''</span>.join(extlen)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将4轮操作统一成一个函数, 通过改变fun调用对应的操作</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Round</span><span class="params">(kstep, k, ss, i, fun)</span>:</span></span><br><span class="line">  <span class="keyword">global</span> A, B, C, D</span><br><span class="line">  <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">    A = roundOp(A,B,C,D, k, ss[<span class="number">0</span>], i, fun)</span><br><span class="line">    D = roundOp(D,A,B,C, (k + kstep) % <span class="number">16</span>, ss[<span class="number">1</span>], i + <span class="number">1</span>, fun)</span><br><span class="line">    C = roundOp(C,D,A,B, (k + kstep * <span class="number">2</span>) % <span class="number">16</span>, ss[<span class="number">2</span>], i + <span class="number">2</span>, fun)</span><br><span class="line">    B = roundOp(B,C,D,A, (k + kstep * <span class="number">3</span>) % <span class="number">16</span>, ss[<span class="number">3</span>], i + <span class="number">3</span>, fun)</span><br><span class="line">    k, i = (k + kstep * <span class="number">4</span>) % <span class="number">16</span>, i + <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># md5主函数，适用于字符串和二进制文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">md5</span><span class="params">(s, isFile = False)</span>:</span></span><br><span class="line">  <span class="keyword">global</span> X, T, A, B, C, D</span><br><span class="line">  msg = extend(open(s, <span class="string">'rb'</span>).read() <span class="keyword">if</span> isFile <span class="keyword">else</span> s)</span><br><span class="line">  <span class="comment"># 小端规则 在内存中为01 23 45 67这种形式</span></span><br><span class="line">  A, B, C, D = <span class="number">0x67452301</span>, <span class="number">0xefcdab89</span>, <span class="number">0x98badcfe</span>, <span class="number">0x10325476</span></span><br><span class="line">  T = tuple(int(<span class="number">4294967296</span>*abs(math.sin(x))) <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">65</span>))</span><br><span class="line">  <span class="keyword">for</span> b <span class="keyword">in</span> range(<span class="number">0</span>, len(msg), <span class="number">64</span>):  <span class="comment"># 每64个字节分为一组</span></span><br><span class="line">    <span class="comment"># 每4个字节转化为一个32位整数存进X</span></span><br><span class="line">    X = tuple(struct.unpack(<span class="string">'i'</span>, msg[b+j:b+j+<span class="number">4</span>])[<span class="number">0</span>] <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">64</span>, <span class="number">4</span>))</span><br><span class="line">    AA, BB, CC, DD, i = A, B, C, D, <span class="number">1</span></span><br><span class="line">    Round(<span class="number">1</span>, <span class="number">0</span>, (<span class="number">7</span>, <span class="number">12</span>, <span class="number">17</span>, <span class="number">22</span>), i, F)       <span class="comment"># Round 1</span></span><br><span class="line">    Round(<span class="number">5</span>, <span class="number">1</span>, (<span class="number">5</span>, <span class="number">9</span>, <span class="number">14</span>, <span class="number">20</span>), i + <span class="number">16</span>, G)   <span class="comment"># Round 2</span></span><br><span class="line">    Round(<span class="number">3</span>, <span class="number">5</span>, (<span class="number">4</span>, <span class="number">11</span>, <span class="number">16</span>, <span class="number">23</span>), i + <span class="number">32</span>, H)  <span class="comment"># Round 3</span></span><br><span class="line">    Round(<span class="number">7</span>, <span class="number">0</span>, (<span class="number">6</span>, <span class="number">10</span>, <span class="number">15</span>, <span class="number">21</span>), i + <span class="number">48</span>, I)  <span class="comment"># Round 4</span></span><br><span class="line">    A, B, C, D = int32(A+AA), int32(B+BB), int32(C+CC), int32(D+DD)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="string">''</span>.join(littleEndian(hex(i)[<span class="number">2</span>:<span class="number">-1</span>].zfill(<span class="number">8</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> (A,B,C,D))</span><br></pre></td></tr></table></figure></p>
+<p>Python自带的hashlib库中有MD5函数，可将程序输出与库的输出对比，测试自己写的程序是否正确。运行后myMD5.py会被编译成myMD5.pyc，刚好拿来测试二进制文件的摘要。<br><code>testMD5.py</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> myMD5</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> platform</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">  <span class="keyword">if</span> platform.python_version()[<span class="number">0</span>] == <span class="string">'3'</span>:</span><br><span class="line">    print(<span class="string">u'请使用Python2.7 运行程序'</span>)</span><br><span class="line">    input()</span><br><span class="line">    quit()</span><br><span class="line">  <span class="keyword">assert</span> myMD5.md5(<span class="string">''</span>) == hashlib.md5(<span class="string">''</span>).hexdigest()</span><br><span class="line">  <span class="keyword">assert</span> myMD5.md5(<span class="string">'a'</span>) == hashlib.md5(<span class="string">'a'</span>).hexdigest()</span><br><span class="line">  <span class="keyword">assert</span> myMD5.md5(<span class="string">'test'</span>) == hashlib.md5(<span class="string">'test'</span>).hexdigest()</span><br><span class="line">  <span class="keyword">assert</span> myMD5.md5(<span class="string">'Web security'</span>) == hashlib.md5(<span class="string">'Web security'</span>).hexdigest()</span><br><span class="line">  <span class="keyword">assert</span> myMD5.md5(<span class="string">'longstr'</span>*<span class="number">1000</span>) == hashlib.md5(<span class="string">'longstr'</span>*<span class="number">1000</span>).hexdigest()</span><br><span class="line">  <span class="keyword">with</span> open(<span class="string">'myMD5.pyc'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    MD5 = hashlib.md5()</span><br><span class="line">    MD5.update(f.read())</span><br><span class="line">    <span class="keyword">assert</span> myMD5.md5(<span class="string">'myMD5.pyc'</span>, isFile = <span class="keyword">True</span>) == MD5.hexdigest()</span><br><span class="line">  print(<span class="string">'Pass MD5 test!!!'</span>)</span><br></pre></td></tr></table></figure></p>
+<p><a href="MD5.zip">完整代码下载&gt;&gt;</a></p>
+<h2 id="主要链接"><a href="#主要链接" class="headerlink" title="主要链接"></a>主要链接</h2><ul>
+<li>MD5 RFC文档: <a href="https://tools.ietf.org/html/rfc1321" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc1321</a></li>
+<li>完整代码下载: <a href="https://nevershow.github.io/2016/10/07/MD5/MD5.zip">https://nevershow.github.io/2016/10/07/MD5/MD5.zip</a></li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/10/07/MD5/">Python小程序：MD5算法</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Jianwu Huang</a></p>
+        <p><span>发布时间:</span>2016-10-07, 00:28:41</p>
+        <p><span>最后更新:</span>2018-12-29, 22:28:16</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/10/07/MD5/" title="Python小程序：MD5算法">https://nevershow.github.io/2016/10/07/MD5/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://nevershow.github.io/2016/10/07/MD5/　　作者: Jianwu Huang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/10/17/SYSUNetworkConnection/">
+                    中大东校区连接校园网
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/09/27/urlsearch/">
+                    Python小程序：URL搜索
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Let’s-go"><span class="toc-text">Let’s go</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MD5算法"><span class="toc-text">MD5算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法步骤"><span class="toc-text">算法步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-填充位"><span class="toc-text">1.填充位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-初始化"><span class="toc-text">2.初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-四轮操作"><span class="toc-text">3.四轮操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-输出结果"><span class="toc-text">4.输出结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法实现"><span class="toc-text">算法实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要链接"><span class="toc-text">主要链接</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <!-- <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a> -->
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="分享到朋友圈"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给QQ好友"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <!-- <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a> -->
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"Python小程序：MD5算法　| Just4You　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};
+            // with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+        <script type="text/javascript" src="/js/bd.js"></script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/10/17/SYSUNetworkConnection/" title="上一篇: 中大东校区连接校园网">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/09/27/urlsearch/" title="下一篇: Python小程序：URL搜索">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/05/06/MonkeyEye-6/">电影订票系统后台开发（6）Redis 实现 session 共享</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/22/MonkeyEye-5/">电影订票系统后台开发（5）Nginx 实现反向代理和负载均衡</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/15/MonkeyEye-4/">电影订票系统后台开发（4）REST API 和 Swagger UI</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/08/MonkeyEye-3/">电影订票系统后台开发（3）管理系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/01/MonkeyEye-2/">电影订票系统后台开发（2）数据模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/MonkeyEye-1/">电影订票系统后台开发（1）新建项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/git-learning/">Git学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/18/remote-desktop/">Linux和Windows的远程桌面连接</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/Ureadonly/">Linux下U盘只读文件系统解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/05/FlaskDeployment/">Flask项目部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/17/SYSUNetworkConnection/">中大东校区连接校园网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/07/MD5/">Python小程序：MD5算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/27/urlsearch/">Python小程序：URL搜索</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/07/google/">Python小程序：google不翻墙</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/qsort/">Python小程序：一行快排</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/MyDocument/">U盘中了MyDocument病毒怎么办</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/28/install-Linux/">U盘安装Linux双系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/17/hexo-quick-start/">Hexo快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/17/build-blog/">Hexo+Github简单几步搭建个人博客</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+<!--             <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div> -->
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit" title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+        <div class="footer-left">
+            <i class="fa fa-copyright"></i>
+            2016-2018 Jianwu Huang
+        </div>
+    </div>
+<!--     <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https'){
+           bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+          }
+          else{
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+          }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+</script> -->
+</footer>
+
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 6;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+<!-- 
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-84224515-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+ -->
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  </div>
+</body>
+<script async src="/js/push.js"></script>
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-84224515-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</html>
